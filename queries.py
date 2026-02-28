@@ -9,3 +9,9 @@ def get_all_todos():
     todos = connection.execute('SELECT * FROM todos').fetchall()
     connection.close()
     return todos
+
+def add_todo(title):
+    connection = get_db_connection()
+    connection.execute('INSERT INTO todos (title) VALUES (?)', (title , ))
+    connection.commit()
+    connection.close()
