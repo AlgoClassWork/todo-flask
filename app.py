@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-from queries import get_all_todos
+from flask import Flask, render_template, request, redirect, url_for
+from queries import get_all_todos, add_todo
 
 app = Flask(__name__)
 
@@ -9,4 +9,12 @@ def index():
     todos = get_all_todos()
     return render_template('index.html', todos=todos)
 
+#http://127.0.0.1:5000/add/
+@app.route('/add', methods=['POST']) 
+def add():
+    title = request.form['title']
+    if title:
+        add_todo(title)
+    return redirect( url_for('index') )
+    
 app.run(debug=True)
