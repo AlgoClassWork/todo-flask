@@ -114,8 +114,10 @@
     <h1>📝 Мои задачи</h1>
     
     <div class="input-group">
-        <input placeholder="Что нужно сделать?">
-        <button>Добавить</button>
+        <form action="/add" method="POST">
+            <input name="title" placeholder="Что нужно сделать?">
+            <button>Добавить</button>
+        </form>
     </div>
 
     <h2>Список дел</h2>
