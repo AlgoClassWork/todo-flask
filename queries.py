@@ -21,3 +21,13 @@ def delete_todo(task_id):
     connection.execute('DELETE FROM todos WHERE id = ?', (task_id , ))
     connection.commit()
     connection.close()
+
+def toggle_todo(task_id):
+    connection = get_db_connection()
+    todo = connection.execute('SELECT completed FROM todos WHERE id = ?', (task_id, )).fetchone()
+    if todo:
+        new_status = 0 if todo[0] else 1
+        connection.execute('UPDATE todos SET completed = ? WHERE id = ? ', (new_status, task_id ))
+        connection.commit()
+
+    connection.close()
