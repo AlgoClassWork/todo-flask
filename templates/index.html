@@ -125,6 +125,7 @@
         {% for todo in todos %}
             <li>
                 <span class="task-text">{{ todo[1] }}</span>
+                <a href="/delete/{{todo[0]}}"> [x] </a>
             </li>
         {% endfor %}
     </ul>
