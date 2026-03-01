@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from queries import get_all_todos, add_todo, delete_todo
+from queries import get_all_todos, add_todo, delete_todo, toggle_todo
 
 app = Flask(__name__)
 
@@ -21,6 +21,12 @@ def add():
 @app.route('/delete/<int:id>') 
 def delete(id):
     delete_todo( id )
+    return redirect( url_for('index') )
+
+#http://127.0.0.1:5000/toggle/int
+@app.route('/toggle/<int:id>') 
+def toggle(id):
+    toggle_todo( id )
     return redirect( url_for('index') )
     
 app.run(debug=True)
