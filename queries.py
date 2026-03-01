@@ -15,3 +15,9 @@ def add_todo(title):
     connection.execute('INSERT INTO todos (title) VALUES (?)', (title , ))
     connection.commit()
     connection.close()
+
+def delete_todo(task_id):
+    connection = get_db_connection()
+    connection.execute('DELETE FROM todos WHERE id = ?', (task_id , ))
+    connection.commit()
+    connection.close()
