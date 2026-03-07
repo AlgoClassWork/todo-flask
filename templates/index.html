@@ -13,6 +13,8 @@
             --accent: #6366f1;
             --accent-hover: #4f46e5;
             --border: #e5e7eb;
+            --danger: #ef4444;
+            --danger-bg: #fee2e2;
         }
 
         body {
@@ -41,10 +43,12 @@
             text-align: center;
         }
 
-        .input-group {
+        /* Исправлен flexbox для формы */
+        form {
             display: flex;
             gap: 10px;
             margin-bottom: 2rem;
+            width: 100%;
         }
 
         input {
@@ -94,7 +98,7 @@
             border: 1px solid var(--border);
             display: flex;
             align-items: center;
-            transition: transform 0.1s;
+            transition: transform 0.1s, border-color 0.2s;
         }
 
         li:hover {
@@ -102,9 +106,40 @@
             border-color: var(--accent);
         }
 
-        /* Если в базе данных это кортеж (id, title, completed) */
         .task-text {
             flex: 1;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        /* Стили для кнопок-ссылок внутри задачи */
+        .toggle-btn {
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-right: 12px;
+            color: var(--accent);
+        }
+
+        .delete-btn {
+            text-decoration: none;
+            color: var(--danger);
+            background: var(--danger-bg);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: background 0.2s;
+            margin-left: 10px;
+        }
+
+        .delete-btn:hover {
+            background: #fca5a5;
+        }
+
+        /* Стили для выполненной задачи (зачеркивание текста) */
+        .completed .task-text {
+            text-decoration: line-through;
+            color: #9ca3af;
         }
     </style>
 </head>
@@ -113,19 +148,23 @@
 <div class="container">
     <h1>📝 Мои задачи</h1>
     
-    <div class="input-group">
-        <form action="/add" method="POST">
-            <input name="title" placeholder="Что нужно сделать?">
-            <button>Добавить</button>
-        </form>
-    </div>
+    <form action="/add" method="POST">
+        <input type="text" name="title" placeholder="Что нужно сделать?" required>
+        <button type="submit">Добавить</button>
+    </form>
 
     <h2>Список дел</h2>
     <ul>
         {% for todo in todos %}
-            <li>
+            <li class="{% if todo[2] %}completed{% endif %}">
+                
+                <a href="/toggle/{{todo[0]}}" class="toggle-btn" title="Отметить">
+                    {% if todo[2] %} ☑ {% else %} ☐ {% endif %}
+                </a>
+
                 <span class="task-text">{{ todo[1] }}</span>
-                <a href="/delete/{{todo[0]}}"> [x] </a>
+                
+                <a href="/delete/{{todo[0]}}" class="delete-btn">Удалить</a>
             </li>
         {% endfor %}
     </ul>
